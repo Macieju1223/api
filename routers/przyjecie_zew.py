@@ -3,23 +3,23 @@ from database import get_db
 import schem,models
 from typing import List
 from sqlalchemy.orm import Session
-
+from .oauth2 import get_current_user
 router = APIRouter(
     tags = ['Przyjecie zewnetrzne']
 )
 
 @router.get('/przyjecia_zewnetrzne')
-def wyswietl_przyjecie_zew(db: Session = Depends(get_db)):
+def wyswietl_przyjecie_zew(db: Session = Depends(get_db),current_user: schem.login = Depends(get_current_user)):
     zew = db.query(models.przyjecie).all()
     return zew
 
 @router.get('/przyjecia_zewnetrzne/{numer_dokumentu}')
-def wyswietl_przyjecie_po_id(numer_dokumentu,db: Session = Depends(get_db)):
+def wyswietl_przyjecie_po_id(numer_dokumentu,db: Session = Depends(get_db),current_user: schem.login = Depends(get_current_user)):
     przyjecie = db.query(models.przyjecie).filter(models.przyjecie.numer_dokumentu == numer_dokumentu).first()
     return przyjecie
 
 @router.post('/przyjecia_zewnetrzne')
-def dodaj_przyjecie_zew(request: schem.przyjecie_zewnetrzne,db: Session = Depends(get_db)):
+def dodaj_przyjecie_zew(request: schem.przyjecie_zewnetrzne,db: Session = Depends(get_db),current_user: schem.login = Depends(get_current_user)):
     new_przyjecie = models.przyjecie(
         numer_dokumentu = request.numer_dok,
         data_wystawienia = request.data_wyst,
@@ -34,7 +34,7 @@ def dodaj_przyjecie_zew(request: schem.przyjecie_zewnetrzne,db: Session = Depend
     return new_przyjecie
 
 @router.put('/przyjecia_zewnetrzne/{numer_dokumentu}')
-def edytuj_przyjecie_zewnetrzne(numer_dokumentu,request: schem.przyjecie_zewnetrzne,db: Session = Depends(get_db)):
+def edytuj_przyjecie_zewnetrzne(numer_dokumentu,request: schem.przyjecie_zewnetrzne,db: Session = Depends(get_db),current_user: schem.login = Depends(get_current_user)):
     updated = db.query(models.przyjecie).filter(models.przyjecie.numer_dokumentu == numer_dokumentu).update({
         'data_wystawienia': request.data_wyst,
         'data_wydania': request.data_wyd,

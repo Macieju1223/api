@@ -3,13 +3,13 @@ from database import get_db
 import schem,models
 from typing import List
 from sqlalchemy.orm import Session
-
+from .oauth2 import get_current_user
 router = APIRouter(
     tags = ['Polki']
 )
 
 @router.post('/Polki')
-def dodawanie_polek_so_sektorow(request: schem.polka,db: Session = Depends(get_db)):
+def dodawanie_polek_so_sektorow(request: schem.polka,db: Session = Depends(get_db),current_user: schem.login = Depends(get_current_user)):
     polka = models.polki(
        sektor = request.sektor 
     )

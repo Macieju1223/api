@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from sqlalchemy.sql.sqltypes import Numeric
+from typing import Optional
 
 class firma(BaseModel):
     nazwa: str
@@ -16,10 +16,10 @@ class podstawowe_informacje(BaseModel):
         orm_mode = True
 #--
 class login(BaseModel):
-    login: str
-    haslo: str
+    username: str
+    password: str
 class urzytkownicy(BaseModel):
-    login: str
+    username: str
     class Config():
         orm_mode = True
 #--
@@ -64,3 +64,14 @@ class wydanie_zewnetrzne(BaseModel):
     ilosc: int
     rabat: int
     cena: int
+    
+class autentication(BaseModel):
+    username: str
+    password: str
+    
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None

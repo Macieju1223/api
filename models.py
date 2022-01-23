@@ -17,8 +17,8 @@ class firma(magazyn):
 class user(magazyn):
     __tablename__ = 'users'
     id = Column(Integer,primary_key=True,index=True)
-    login = Column(String)
-    haslo = Column(String)
+    username = Column(String)
+    password = Column(String)
 #--
 class rosliny(magazyn):
     __tablename__ = 'rosliny'
