@@ -1,0 +1,1 @@
+create virtual python env, activate it. tenn just pip install all requairments from file requairments.txt, paste uvicorn main:app and enjoy (you gonna have to ask me for a user password)
