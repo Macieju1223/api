@@ -18,6 +18,7 @@ class podstawowe_informacje(BaseModel):
 class login(BaseModel):
     username: str
     password: str
+    
 class urzytkownicy(BaseModel):
     username: str
     class Config():

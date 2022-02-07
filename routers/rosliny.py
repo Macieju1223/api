@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from database import get_db
 import schem,models
-from typing import List
 from sqlalchemy.orm import Session
 from .oauth2 import get_current_user
 
@@ -29,3 +28,9 @@ def dostepne_rosliny_w_magazynie(db: Session = Depends(get_db)):
 def szukana_roslinka_podaj_id(id_rosliny,db: Session = Depends(get_db)):
     szukana = db.query(models.rosliny).filter(models.rosliny.id_rosliny == id_rosliny).first()
     return szukana
+
+@router.delete('/Rośliny/{id_rosliny}')
+def usuwa_rośline_z_bazy(id_rosliny, db: Session = Depends(get_db),current_user: schem.login = Depends(get_current_user)):
+    db.query(models.rosliny).filter(models.rosliny.id_rosliny == id_rosliny).delete(synchronize_session=False)
+    db.commit()
+    return 'roslinka zostala pomyślnie usunieta'

@@ -12,9 +12,9 @@ router = APIRouter(
 def login(request:OAuth2PasswordRequestForm = Depends(),db: Session = Depends(database.get_db)):
     user = db.query(models.user).filter(models.user.username == request.username).first()
     if not user:
-        return 'nope, no user wit that name'
+        return "Incorect username or password"
     if not encryption.hash.verify(user.password,request.password):
-        return 'incorect password'
+        return "Incorect username or password "
     # generate jwt token
     access_token = jwt_token.create_access_token(data={"sub": user.username})
     return {"access_token": access_token, "token_type": "bearer"}
